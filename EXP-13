@@ -1,0 +1,33 @@
+import nltk
+from nltk import CFG
+from nltk.parse import RecursiveDescentParser
+
+grammar = CFG.fromstring("""
+S -> NP VP
+NP -> Det N
+VP -> V NP
+Det -> 'the' | 'a'
+N -> 'cat' | 'dog'
+V -> 'sees' | 'likes'
+""")
+
+parser = RecursiveDescentParser(grammar)
+
+sentence = "the cat sees a dog"
+words = sentence.split()
+
+for tree in parser.parse(words):
+    print(tree)
+    tree.pretty_print()
+
+OUTPUT
+(S (NP (Det the) (N cat)) (VP (V sees) (NP (Det a) (N dog))))
+             S              
+      _______|____           
+     |            VP        
+     |        ____|___       
+     NP      |        NP    
+  ___|___    |     ___|___   
+Det      N   V   Det      N 
+ |       |   |    |       |  
+the     cat sees  a      dog
