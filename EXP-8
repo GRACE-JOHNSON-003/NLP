@@ -1,0 +1,39 @@
+from collections import defaultdict
+
+training_data = [
+    ('I', 'PRP'),
+    ('love', 'VBP'),
+    ('NLP', 'NNP'),
+    ('NLP', 'NNP'),
+    ('is', 'VBZ'),
+    ('fun', 'JJ'),
+    ('love', 'VBP'),
+    ('fun', 'NN')
+]
+
+word_tag_count = defaultdict(lambda: defaultdict(int))
+word_count = defaultdict(int)
+
+for word, tag in training_data:
+    word_tag_count[word][tag] += 1
+    word_count[word] += 1
+
+def stochastic_pos_tag(sentence):
+    result = []
+    words = sentence.split()
+
+    for word in words:
+        if word in word_tag_count:
+            tag_probs = word_tag_count[word]
+            tag = max(tag_probs, key=tag_probs.get)
+        else:
+            tag = 'NN'
+        result.append((word, tag))
+
+    return result
+
+sentence = "I love NLP"
+print(stochastic_pos_tag(sentence))
+
+OUTPUT
+[('I', 'PRP'), ('love', 'VBP'), ('NLP', 'NNP')]
