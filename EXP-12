@@ -1,0 +1,61 @@
+grammar = {
+    'S': [['NP', 'VP']],
+    'NP': [['Det', 'N']],
+    'VP': [['V', 'NP']],
+    'Det': [['the'], ['a']],
+    'N': [['cat'], ['dog']],
+    'V': [['sees'], ['likes']]
+}
+
+def is_nonterminal(symbol):
+    return symbol in grammar
+
+def earley_parse(sentence):
+    words = sentence.split()
+    n = len(words)
+    chart = [set() for _ in range(n + 1)]
+
+    chart[0].add(('S', ('NP', 'VP'), 0, 0))
+
+    for i in range(n + 1):
+        changed = True
+        while changed:
+            changed = False
+            for state in list(chart[i]):
+                lhs, rhs, dot, start = state
+
+                if dot < len(rhs):
+                    next_sym = rhs[dot]
+
+                    if is_nonterminal(next_sym):
+                        for prod in grammar[next_sym]:
+                            new_state = (next_sym, tuple(prod), 0, i)
+                            if new_state not in chart[i]:
+                                chart[i].add(new_state)
+                                changed = True
+                    else:
+                        if i < n and words[i] == next_sym:
+                            chart[i + 1].add((lhs, rhs, dot + 1, start))
+
+                else:
+                    for prev_state in list(chart[start]):
+                        plhs, prhs, pdot, pstart = prev_state
+                        if pdot < len(prhs) and prhs[pdot] == lhs:
+                            new_state = (plhs, prhs, pdot + 1, pstart)
+                            if new_state not in chart[i]:
+                                chart[i].add(new_state)
+                                changed = True
+
+    return ('S', ('NP', 'VP'), 2, 0) in chart[n]
+
+sentence = "the cat sees a dog"
+
+if earley_parse(sentence):
+    print("Sentence is grammatically correct")
+else:
+    print("Sentence is grammatically incorrect")
+
+OUTPUT
+Sentence is grammatically correct
+
+OUTPUT
