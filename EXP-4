@@ -1,0 +1,26 @@
+def plural_fsm(noun):
+    state = 0
+
+    for ch in noun:
+        if state == 0:
+            if ch in "sxz":
+                state = 1
+            elif ch == "y":
+                state = 2
+            else:
+                state = 3
+
+    if state == 1:
+        return noun + "es"
+    elif state == 2:
+        return noun[:-1] + "ies"
+    else:
+        return noun + "s"
+
+
+word = input("Enter a noun: ")
+print("Plural form:", plural_fsm(word))
+
+OUTPUT
+Enter a noun: BIKE
+Plural form: BIKEs
