@@ -1,0 +1,28 @@
+import random
+from collections import defaultdict
+
+text = "I like NLP and I like Python and I like coding"
+
+words = text.split()
+
+bigrams = defaultdict(list)
+
+for i in range(len(words) - 1):
+    bigrams[words[i]].append(words[i + 1])
+
+word = random.choice(words)
+generated = [word]
+
+for _ in range(10):
+    if word in bigrams:
+        word = random.choice(bigrams[word])
+        generated.append(word)
+    else:
+        break
+
+print("Generated Text:")
+print(" ".join(generated))
+
+OUTPUT
+Generated Text:
+like NLP and I like Python and I like coding
