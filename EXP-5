@@ -1,0 +1,15 @@
+from nltk.stem import PorterStemmer
+
+words = ["running", "played", "playing", "happiness", "cars"]
+
+stemmer = PorterStemmer()
+
+for word in words:
+    print(word, "→", stemmer.stem(word))
+
+OUTPUT
+running → run
+played → play
+playing → play
+happiness → happi
+cars → car
