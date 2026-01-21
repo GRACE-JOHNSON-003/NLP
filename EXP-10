@@ -1,0 +1,29 @@
+def initial_tag(words):
+    return [(word, 'NN') for word in words]
+
+def apply_rules(tagged):
+    transformed = []
+
+    for i, (word, tag) in enumerate(tagged):
+        if word.endswith('ing'):
+            tag = 'VBG'
+        elif word.endswith('ed'):
+            tag = 'VBD'
+        elif word[0].isupper():
+            tag = 'NNP'
+        elif word in ['is', 'am', 'are', 'was', 'were']:
+            tag = 'VB'
+        transformed.append((word, tag))
+
+    return transformed
+
+sentence = "Processing NLP is interesting"
+words = sentence.split()
+
+initial = initial_tag(words)
+final_tags = apply_rules(initial)
+
+print(final_tags)
+
+OUTPUT
+[('Processing', 'VBG'), ('NLP', 'NNP'), ('is', 'VB'), ('interesting', 'VBG')]
