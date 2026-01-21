@@ -1,0 +1,13 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag
+
+text = "Natural Language Processing is very interesting"
+
+tokens = word_tokenize(text)
+tagged = pos_tag(tokens)
+ 
+print(tagged)
+
+OUTPUT
+[('Natural', 'JJ'), ('Language', 'NNP'), ('Processing', 'NNP'), ('is', 'VBZ'), ('very', 'RB'), ('interesting', 'JJ')]
