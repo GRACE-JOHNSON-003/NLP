@@ -1,0 +1,33 @@
+import nltk
+from nltk import CFG
+from nltk.parse import RecursiveDescentParser
+
+grammar = CFG.fromstring("""
+S -> NP_sg VP_sg | NP_pl VP_pl
+NP_sg -> Det N_sg
+NP_pl -> Det N_pl
+VP_sg -> V_sg
+VP_pl -> V_pl
+Det -> 'the'
+N_sg -> 'cat'
+N_pl -> 'cats'
+V_sg -> 'runs'
+V_pl -> 'run'
+""")
+
+parser = RecursiveDescentParser(grammar)
+
+def check_agreement(sentence):
+    words = sentence.split()
+    parses = list(parser.parse(words))
+    return len(parses) > 0
+
+sent1 = "the cat runs"
+sent2 = "the cats runs"
+
+print(sent1, "→", check_agreement(sent1))
+print(sent2, "→", check_agreement(sent2))
+
+OUTPUT
+the cat runs → True
+the cats runs → False
