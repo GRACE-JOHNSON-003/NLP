@@ -1,0 +1,24 @@
+import re
+text = "My phone number is 9876543210 and my email is test123@gmail.com"
+pattern_match = r"My"
+match_result = re.match(pattern_match, text)
+
+if match_result:
+    print("Match found at beginning:", match_result.group())
+else:
+    print("No match at beginning")
+pattern_search = r"\d{10}"  
+search_result = re.search(pattern_search, text)
+if search_result:
+    print("Search found:", search_result.group())
+else:
+    print("Pattern not found")
+email_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+email_result = re.search(email_pattern, text)
+if email_result:
+    print("Email found:", email_result.group())
+
+OUTPUT
+Match found at beginning: My
+Search found: 9876543210
+Email found: test123@gmail.com
