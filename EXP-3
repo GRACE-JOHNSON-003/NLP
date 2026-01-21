@@ -1,0 +1,16 @@
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+
+words = ["running", "played", "playing", "better", "cars"]
+
+stemmer = PorterStemmer()
+lemmatizer = WordNetLemmatizer()
+
+for word in words:
+    print(word, stemmer.stem(word), lemmatizer.lemmatize(word))
+
+OUTPUT
+running run running
+played play played
+playing play playing
+better better better
+cars car car
