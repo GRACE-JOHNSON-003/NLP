@@ -1,0 +1,28 @@
+import re
+
+rules = [
+    (r'.*ing$', 'VBG'),
+    (r'.*ed$', 'VBD'),
+    (r'.*ly$', 'RB'),
+    (r'.*ion$', 'NN'),
+    (r'.*s$', 'NNS'),
+    (r'^[A-Z].*$', 'NNP'),
+    (r'.*', 'NN')
+]
+
+def rule_based_pos_tagger(sentence):
+    tagged = []
+    words = sentence.split()
+
+    for word in words:
+        for pattern, tag in rules:
+            if re.match(pattern, word):
+                tagged.append((word, tag))
+                break
+    return tagged
+
+text = "Processing NLP is really interesting"
+print(rule_based_pos_tagger(text))
+
+OUTPUT
+[('Processing', 'VBG'), ('NLP', 'NNP'), ('is', 'NNS'), ('really', 'RB'), ('interesting', 'VBG')]
