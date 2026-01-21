@@ -1,0 +1,32 @@
+def parse_S(words):
+    return parse_NP(words) and parse_VP(words[2:])
+
+def parse_NP(words):
+    if len(words) >= 2 and parse_Det(words[0]) and parse_N(words[1]):
+        return True
+    return False
+
+def parse_VP(words):
+    if len(words) >= 3 and parse_V(words[0]) and parse_NP(words[1:]):
+        return True
+    return False
+
+def parse_Det(word):
+    return word in ['the', 'a']
+
+def parse_N(word):
+    return word in ['cat', 'dog']
+
+def parse_V(word):
+    return word in ['sees', 'likes']
+
+sentence = "the cat sees a dog"
+words = sentence.split()
+
+if parse_S(words):
+    print("Sentence is grammatically correct")
+else:
+    print("Sentence is grammatically incorrect")
+
+OUTPUT
+Sentence is grammatically correct
