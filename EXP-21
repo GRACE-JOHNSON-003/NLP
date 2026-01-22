@@ -1,0 +1,80 @@
+import nltk
+from nltk import pos_tag, word_tokenize, ne_chunk
+from nltk.tree import Tree
+from nltk.corpus import wordnet
+
+# Download required resources (run once)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+
+# Function to extract noun phrases
+def extract_noun_phrases(sentence):
+    tokens = word_tokenize(sentence)
+    pos_tags = pos_tag(tokens)
+    
+    # Simple chunk grammar for NP
+    grammar = "NP: {<DT>?<JJ>*<NN.*>+}"
+    cp = nltk.RegexpParser(grammar)
+    tree = cp.parse(pos_tags)
+    
+    noun_phrases = []
+    for subtree in tree.subtrees():
+        if subtree.label() == "NP":
+            np = " ".join(word for word, tag in subtree.leaves())
+            noun_phrases.append(np)
+    return noun_phrases
+
+# Function to get meanings using WordNet
+def get_meanings(noun_phrase):
+    words = noun_phrase.split()
+    meanings = {}
+    for word in words:
+        synsets = wordnet.synsets(word, pos=wordnet.NOUN)
+        if synsets:
+            meanings[word] = synsets[0].definition()
+        else:
+            meanings[word] = "No meaning found"
+    return meanings
+
+# -------- Example Sentence --------
+sentence = "The quick brown fox jumps over the lazy dog near the river bank."
+
+# Step 1: Extract noun phrases
+noun_phrases = extract_noun_phrases(sentence)
+print("Noun Phrases Found:")
+for np in noun_phrases:
+    print("-", np)
+
+# Step 2: Get meanings
+print("\nSemantic Meanings:")
+for np in noun_phrases:
+    meanings = get_meanings(np)
+    print(f"\nNoun Phrase: {np}")
+    for word, meaning in meanings.items():
+        print(f"  {word}: {meaning}")
+
+OUTPUT
+Noun Phrases Found:
+- The quick brown fox
+- the lazy dog
+- the river bank
+
+Semantic Meanings:
+
+Noun Phrase: The quick brown fox
+  The: No meaning found
+  quick: any area of the body that is highly sensitive to pain (as the flesh underneath the skin or a fingernail or toenail)
+  brown: an orange of low brightness and saturation
+  fox: alert carnivorous mammal with pointed muzzle and ears and a bushy tail; most are predators that do not hunt in packs
+
+Noun Phrase: the lazy dog
+  the: No meaning found
+  lazy: No meaning found
+  dog: a member of the genus Canis (probably descended from the common wolf) that has been domesticated by man since prehistoric times; occurs in many breeds
+
+Noun Phrase: the river bank
+  the: No meaning found
+  river: a large natural stream of water (larger than a creek)
+  bank: sloping land (especially the slope beside a body of water)
+
