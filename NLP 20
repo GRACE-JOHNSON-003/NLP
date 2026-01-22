@@ -1,0 +1,42 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# -------- Sample Documents --------
+documents = [
+    "The cat sat on the mat",
+    "The dog chased the cat",
+    "Cats and dogs are popular pets",
+    "The quick brown fox jumps over the lazy dog"
+]
+
+# -------- User Query --------
+query = "cat chasing dog"
+
+# -------- Step 1: Create TF-IDF Vectorizer --------
+vectorizer = TfidfVectorizer()
+
+# Fit the vectorizer on documents and transform them into TF-IDF matrix
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+# Transform the query using the same vectorizer
+query_vector = vectorizer.transform([query])
+
+# -------- Step 2: Compute Cosine Similarity --------
+similarity_scores = cosine_similarity(query_vector, tfidf_matrix)
+
+# -------- Step 3: Rank Documents Based on Similarity --------
+ranked_docs_indices = similarity_scores[0].argsort()[::-1]
+
+print("Query:", query)
+print("\nDocument Ranking:")
+for rank, idx in enumerate(ranked_docs_indices):
+    print(f"Rank {rank+1}: Document {idx+1} -> '{documents[idx]}' (Score: {similarity_scores[0][idx]:.4f})")
+
+OUTPUT
+Query: cat chasing dog
+
+Document Ranking:
+Rank 1: Document 2 -> 'The dog chased the cat' (Score: 0.5666)
+Rank 2: Document 1 -> 'The cat sat on the mat' (Score: 0.2433)
+Rank 3: Document 4 -> 'The quick brown fox jumps over the lazy dog' (Score: 0.1941)
+Rank 4: Document 3 -> 'Cats and dogs are popular pets' (Score: 0.0000)
