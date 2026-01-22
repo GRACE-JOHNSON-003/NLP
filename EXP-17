@@ -1,0 +1,91 @@
+from nltk.corpus import wordnet
+
+# Input word
+word = "bank"
+
+# Get synsets of the word
+synsets = wordnet.synsets(word)
+
+print("Synsets and meanings of the word:", word)
+print("-" * 40)
+
+for syn in synsets:
+    print("Synset:", syn.name())
+    print("Definition:", syn.definition())
+    print("Examples:", syn.examples())
+    print()
+
+OUTPUT
+Synsets and meanings of the word: bank
+----------------------------------------
+Synset: bank.n.01
+Definition: sloping land (especially the slope beside a body of water)
+Examples: ['they pulled the canoe up on the bank', 'he sat on the bank of the river and watched the currents']
+
+Synset: depository_financial_institution.n.01
+Definition: a financial institution that accepts deposits and channels the money into lending activities
+Examples: ['he cashed a check at the bank', 'that bank holds the mortgage on my home']
+
+Synset: bank.n.03
+Definition: a long ridge or pile
+Examples: ['a huge bank of earth']
+
+Synset: bank.n.04
+Definition: an arrangement of similar objects in a row or in tiers
+Examples: ['he operated a bank of switches']
+
+Synset: bank.n.05
+Definition: a supply or stock held in reserve for future use (especially in emergencies)
+Examples: []
+
+Synset: bank.n.06
+Definition: the funds held by a gambling house or the dealer in some gambling games
+Examples: ['he tried to break the bank at Monte Carlo']
+
+Synset: bank.n.07
+Definition: a slope in the turn of a road or track; the outside is higher than the inside in order to reduce the effects of centrifugal force
+Examples: []
+
+Synset: savings_bank.n.02
+Definition: a container (usually with a slot in the top) for keeping money at home
+Examples: ['the coin bank was empty']
+
+Synset: bank.n.09
+Definition: a building in which the business of banking transacted
+Examples: ['the bank is on the corner of Nassau and Witherspoon']
+
+Synset: bank.n.10
+Definition: a flight maneuver; aircraft tips laterally about its longitudinal axis (especially in turning)
+Examples: ['the plane went into a steep bank']
+
+Synset: bank.v.01
+Definition: tip laterally
+Examples: ['the pilot had to bank the aircraft']
+
+Synset: bank.v.02
+Definition: enclose with a bank
+Examples: ['bank roads']
+
+Synset: bank.v.03
+Definition: do business with a bank or keep an account at a bank
+Examples: ['Where do you bank in this town?']
+
+Synset: bank.v.04
+Definition: act as the banker in a game or in gambling
+Examples: []
+
+Synset: bank.v.05
+Definition: be in the banking business
+Examples: []
+
+Synset: deposit.v.02
+Definition: put into a bank account
+Examples: ['She deposits her paycheck every month']
+
+Synset: bank.v.07
+Definition: cover with ashes so to control the rate of burning
+Examples: ['bank a fire']
+
+Synset: trust.v.01
+Definition: have confidence or faith in
+Examples: ['We can trust in God', 'Rely on your friends', 'bank on your good education', "I swear by my grandmother's recipes"]
