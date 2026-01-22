@@ -1,0 +1,41 @@
+from nltk.wsd import lesk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import wordnet
+
+def disambiguate_word(sentence, word):
+    # Tokenize the sentence
+    tokens = word_tokenize(sentence)
+    
+    # Apply Lesk algorithm
+    sense = lesk(tokens, word)
+    
+    if sense:
+        print(f"Word: {word}")
+        print(f"Context: {sentence}")
+        print(f"Predicted Sense: {sense.name()}")
+        print(f"Definition: {sense.definition()}")
+        print(f"Example: {sense.examples()}")
+    else:
+        print(f"No sense found for '{word}' in the given context.")
+
+# -------- Example Usage --------
+sentence1 = "I went to the bank to deposit money"
+word1 = "bank"
+disambiguate_word(sentence1, word1)
+
+sentence2 = "The fisherman caught a bass in the river"
+word2 = "bass"
+disambiguate_word(sentence2, word2)
+
+
+OUTPUT
+Word: bank
+Context: I went to the bank to deposit money
+Predicted Sense: depository_financial_institution.n.01
+Definition: a financial institution that accepts deposits and channels the money into lending activities
+Example: ['he cashed a check at the bank', 'that bank holds the mortgage on my home']
+Word: bass
+Context: The fisherman caught a bass in the river
+Predicted Sense: bass.n.02
+Definition: the lowest part in polyphonic music
+Example: []
