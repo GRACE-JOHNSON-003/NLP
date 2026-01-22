@@ -1,0 +1,58 @@
+import re
+
+# Function to identify predicate
+def parse_predicate(expr):
+    match = re.match(r'(\w+)\((\w+)\)', expr)
+    if match:
+        return {
+            "predicate": match.group(1),
+            "argument": match.group(2)
+        }
+    return None
+
+# Main parser function
+def parse_expression(expr):
+    expr = expr.strip()
+
+    if "AND" in expr:
+        left, right = expr.split("AND")
+        return {
+            "AND": [parse_expression(left), parse_expression(right)]
+        }
+
+    elif "OR" in expr:
+        left, right = expr.split("OR")
+        return {
+            "OR": [parse_expression(left), parse_expression(right)]
+        }
+
+    elif "->" in expr:
+        left, right = expr.split("->")
+        return {
+            "IMPLIES": [parse_expression(left), parse_expression(right)]
+        }
+
+    elif expr.startswith("NOT"):
+        return {
+            "NOT": parse_expression(expr.replace("NOT", "").strip())
+        }
+
+    else:
+        return parse_predicate(expr)
+
+# -------- Test the Parser --------
+expression = "Human(x) -> Mortal(x)"
+parsed_output = parse_expression(expression)
+
+print("Logical Expression:")
+print(expression)
+print("\nParsed Structure:")
+print(parsed_output)
+
+
+OUTPUT
+Logical Expression:
+Human(x) -> Mortal(x)
+
+Parsed Structure:
+{'IMPLIES': [{'predicate': 'Human', 'argument': 'x'}, {'predicate': 'Mortal', 'argument': 'x'}]}
