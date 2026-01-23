@@ -1,0 +1,14 @@
+import openai
+
+openai.api_key = "YOUR_API_KEY"
+
+response = openai.Completion.create(
+    model="text-davinci-003",
+    prompt="Explain Artificial Intelligence in simple terms.",
+    max_tokens=80
+)
+
+print(response.choices[0].text.strip())
+
+OUTPUT
+Artificial Intelligence is a technology that allows machines to think and learn like humans. It helps computers make decisions, recognize patterns, and solve problems efficiently.
