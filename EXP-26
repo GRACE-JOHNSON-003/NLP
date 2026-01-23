@@ -1,0 +1,16 @@
+from transformers import pipeline
+
+translator = pipeline(
+    "translation_en_to_fr",
+    model="Helsinki-NLP/opus-mt-en-fr"
+)
+
+text = "Artificial Intelligence is transforming the world."
+translated = translator(text)
+
+print("English:", text)
+print("French:", translated[0]['translation_text'])
+
+OUTPUT
+English: Artificial Intelligence is transforming the world.
+French: L'intelligence artificielle transforme le monde.
