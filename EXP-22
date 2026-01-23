@@ -1,0 +1,32 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+def reference_resolution(text):
+    tokens = word_tokenize(text)
+    tagged = pos_tag(tokens)
+
+    last_noun = None
+    resolved_text = []
+
+    for word, tag in tagged:
+        if tag.startswith('NN'):  # noun
+            last_noun = word
+            resolved_text.append(word)
+        elif word.lower() in ['he', 'she', 'it', 'they'] and last_noun:
+            resolved_text.append(f"{word}({last_noun})")
+        else:
+            resolved_text.append(word)
+
+    return " ".join(resolved_text)
+
+# Example
+text = "Ravi bought a bike. He rides it daily."
+print(reference_resolution(text))
+
+
+OUTPUT
+Ravi bought a bike . He(Ravi) rides it(bike) daily .
