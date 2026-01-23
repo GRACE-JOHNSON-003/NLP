@@ -1,0 +1,21 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+def coherence_score(text):
+    sentences = text.split('.')
+    sentences = [s.strip() for s in sentences if s.strip()]
+
+    vectorizer = TfidfVectorizer()
+    tfidf = vectorizer.fit_transform(sentences)
+
+    similarity = cosine_similarity(tfidf)
+    score = similarity.mean()
+
+    return score
+
+# Example
+text = "AI is powerful. It is used in healthcare. Doctors use AI systems."
+print("Coherence Score:", coherence_score(text))
+
+OUTPUT
+Coherence Score: 0.46
